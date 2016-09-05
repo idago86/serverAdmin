@@ -5,17 +5,28 @@
  */
 package serveradmin;
 
+import java.net.ServerSocket;
+import serveradmin.proxy.ServerAdminProxy;
+
 /**
  *
  * @author Mihaela Tudose
  */
-public class Server {
+public class Server {    
+    private static ServerSocket ss;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        try {
+            ss = new ServerSocket(3232);
+            while (true) {                
+                new ServerAdminProxy(ss.accept()).start();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
 }
